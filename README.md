@@ -1,5 +1,12 @@
 # todo
 
+## Project completed 14.05.2021 as it is fulfills all objectivities:
+- Allows to create new tasks
+- Allows to mark tasks as completed
+- Allows to hide completed tasks
+- Allows to delete completed tasks
+- Honestly, it is quite nice piece of 'todo" app
+
 ## Project setup
 ```
 npm install
