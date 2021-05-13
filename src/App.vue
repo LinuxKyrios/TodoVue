@@ -15,6 +15,14 @@
           <input type="checkbox" v-model="t.done" class="form-check-input" />
         </div>
       </div>
+      <div class="row py-2">
+        <div class="col">
+          <input v-model="newItemText" class="form-control" />
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary" v-on:click="addNewTodo">Add new task</button>
+        </div>
+      </div>
       <div class="row bg-secondary py-2 mt-2 text-white">
         <div class="col text-center">
           <input type="checkbox" v-model="hideCompleted" class="form-check-input" />
@@ -39,13 +47,24 @@ export default {
                 {action: "Start looking for a new car", done: false},
                 {action: "Buy the biggest delicious Buenos Nachos Pizza", done: true},
                 {action: "Remove ex number from my telephone", done: false}],
-        hideCompleted: true
+        hideCompleted: true,
+        newItemText: "",
       }
     },
-  //Model data to hide or show completed tasks
+  //Function data to hide or show completed tasks
   computed: {
     filteredTasks() {
       return this.hideCompleted ? this.tasks.filter(t => !t.done) : this.tasks
+    }
+  },
+
+  methods: {
+    addNewTodo() {
+      this.tasks.push({
+        action: this.newItemText,
+        done: false
+      });
+      this.newItemText = "";
     }
   }
 }
