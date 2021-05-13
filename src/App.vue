@@ -57,14 +57,23 @@ export default {
       return this.hideCompleted ? this.tasks.filter(t => !t.done) : this.tasks
     }
   },
-
+  //Function for adding new tasks to array tasks and for using local storage to save state
   methods: {
     addNewTodo() {
       this.tasks.push({
         action: this.newItemText,
         done: false
       });
+      localStorage.setItem("todos", JSON.stringify(this.tasks));
       this.newItemText = "";
+    }
+  },
+
+  //Function for uploading data from local storage
+  created() {
+    let data = localStorage.getItem("todos");
+    if (data != null) {
+      this.tasks = JSON.parse(data);
     }
   }
 }
