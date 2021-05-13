@@ -5,16 +5,23 @@
       Task List of the user {{name}}
     </h4>
     <div class="container-fluid p-4">
-      <div class="row">
-        <div class="col font-weight-bold">Task</div>
-        <div class="col-2 font-weight-bold">Accomplished?</div>
-      </div>
-      <div class="row" v-for="t in filteredTasks" v-bind:key="t.action">
-        <div class="col">{{t.action}}</div>
-        <div class="col-2 text-center">
-          <input type="checkbox" v-model="t.done" class="form-check-input" />
+      <div class="row" v-if="filteredTasks.length === 0">
+        <div class="col text-center">
+          <b>You have nothing to do. Splendid!</b>
         </div>
       </div>
+      <template v-else>
+        <div class="row">
+          <div class="col font-weight-bold">Task</div>
+          <div class="col-2 font-weight-bold">Accomplished?</div>
+        </div>
+        <div class="row" v-for="t in filteredTasks" v-bind:key="t.action">
+          <div class="col">{{t.action}}</div>
+          <div class="col-2 text-center">
+            <input type="checkbox" v-model="t.done" class="form-check-input" />
+          </div>
+        </div>
+      </template>
       <div class="row py-2">
         <div class="col">
           <input v-model="newItemText" class="form-control" />
@@ -30,13 +37,17 @@
             Hide completed tasks
           </label>
         </div>
+        <div class="col text-center">
+          <button class="btn btn-sm btn-warning" v-on:click="deleteCompleted">
+            Delete completed tasks
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'App',
     data() {
@@ -64,8 +75,17 @@ export default {
         action: this.newItemText,
         done: false
       });
-      localStorage.setItem("todos", JSON.stringify(this.tasks));
+      this.storeData();
       this.newItemText = "";
+    },
+    //Function for storing data
+    storeData() {
+      localStorage.setItem("todos", JSON.stringify(this.tasks));
+    },
+    //Function for removing completed tasks
+    deleteCompleted() {
+      this.tasks = this.tasks.filter(t => !t.done);
+      this.storeData();
     }
   },
 
